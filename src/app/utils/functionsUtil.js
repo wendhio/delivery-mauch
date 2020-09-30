@@ -1,3 +1,5 @@
+import GifService from '../services/GifService';
+
 function titleFormatted(title) {
   return title.replace(/\r?\n|\r/g, '').trim();
 }
@@ -5,16 +7,16 @@ function titleFormatted(title) {
 function ingredientFormatted(ingredients) {
   return ingredients
     .split(',')
-    .sort()
-    .map((ingredient) => ingredient.trim());
+    .map((ingredient) => ingredient.trim())
+    .sort();
 }
 
-function recipeFormatted(recipes) {
+async function recipeFormatted(recipes) {
   return {
     title: titleFormatted(recipes.title),
     ingredients: ingredientFormatted(recipes.ingredients),
     link: recipes.href,
-    gif: recipes.thumbnail,
+    gif: await GifService.execute(recipes.title),
   };
 }
 
